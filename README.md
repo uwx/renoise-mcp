@@ -11,7 +11,7 @@ MCP server for controlling Renoise via OSC. Lets Claude compose music by writing
 ## Installation
 
 ```bash
-cd osc-mcp
+cd renoise-mcp
 uv sync
 ```
 
@@ -26,7 +26,7 @@ pip install -e .
 2. Go to `Edit > Preferences > OSC`
 3. Enable OSC server
 4. Set protocol to UDP
-5. Set port to 8000 (or configure via environment variable)
+5. Set the port to match `RENOISE_PORT` below (6767 in the example)
 
 ## Claude Code Configuration
 
@@ -37,10 +37,10 @@ Add to your `~/.claude.json` or Claude Desktop MCP settings:
   "mcpServers": {
     "renoise": {
       "command": "uv",
-      "args": ["--directory", "/path/to/osc-mcp", "run", "renoise-mcp"],
+      "args": ["--directory", "/path/to/renoise-mcp", "run", "renoise-mcp"],
       "env": {
         "RENOISE_HOST": "127.0.0.1",
-        "RENOISE_PORT": "8000"
+        "RENOISE_PORT": "6767"
       }
     }
   }

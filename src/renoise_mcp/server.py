@@ -1,7 +1,7 @@
 """MCP Server for Renoise control via OSC."""
 
 import os
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from .osc_client import RenoiseConfig, RenoiseOSC
 from .pattern_gen import (
@@ -15,7 +15,7 @@ from .pattern_gen import (
 )
 
 # Initialize MCP server
-mcp = FastMCP("renoise-mcp")
+mcp = MCPServer("renoise-mcp")
 
 # Initialize Renoise OSC client with config from environment
 _config = RenoiseConfig(

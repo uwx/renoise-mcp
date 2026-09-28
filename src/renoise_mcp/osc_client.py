@@ -103,14 +103,22 @@ class RenoiseOSC:
     # =========================================================================
 
     def set_track_mute(self, track: int, muted: bool) -> None:
-        """Mute/unmute a track."""
-        address = f"/renoise/song/track/{track + 1}/mute"
-        self._send(address, 1 if muted else 0)
+        """Mute/unmute a track.
+
+        Renoise's OSC mute endpoints take no argument and mute/unmute are
+        separate addresses, so this goes through the Lua sandbox instead.
+        """
+        action = "mute" if muted else "unmute"
+        self.evaluate_lua(f"renoise.song():track({track + 1}):{action}()")
 
     def set_track_solo(self, track: int, soloed: bool) -> None:
-        """Solo/unsolo a track."""
-        address = f"/renoise/song/track/{track + 1}/solo"
-        self._send(address, 1 if soloed else 0)
+        """Solo/unsolo a track.
+
+        Renoise has a solo() method but no unsolo(), and its OSC solo endpoint
+        is solo-only, so the solo_state property is the only way to unsolo.
+        """
+        value = "true" if soloed else "false"
+        self.evaluate_lua(f"renoise.song():track({track + 1}).solo_state = {value}")
 
     def set_track_volume(self, track: int, volume: float) -> None:
         """Set track pre-fx volume (0.0-1.0)."""
